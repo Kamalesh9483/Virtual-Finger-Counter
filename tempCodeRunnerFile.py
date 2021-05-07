@@ -1,0 +1,1 @@
+  # cv2.putText(img,fps,(400,700),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),2)

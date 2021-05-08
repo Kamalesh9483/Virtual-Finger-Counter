@@ -2,7 +2,7 @@ import cv2
 import os       # For operating system dependent functionality 
                 # eg. listing Return a list containing the names of the entries in the directory given by path
 import time     # For time related functionality
-
+import HandTrackingModule as htm
 
 
 # setting video capture mode
@@ -27,9 +27,20 @@ print(len(overLay))
 
 previousTime = 0
 
+
+# initializing the object 'detector' 
+# using the HandDetection() class from the module HandTrackingModule (htm)
+detector = htm.HandDetection(DetectionConfidence= 0.75)
+
+
+
 while True:
     success, img = cap.read()
-    
+    # Accessing findHands() method from class HandDetection() from HandTrackingModule (htm)
+    detector.findHands(img,True)
+
+
+
     # Alloting height X width pixels in outut window for displaying overlay images
     # Note: Pixel height and width of each image may vary
     # using  .shape to get height, width, channel details of each image 
@@ -46,5 +57,6 @@ while True:
     cv2.putText(img,f"FPS is {str(int(fps))}",(400,700),cv2.FONT_HERSHEY_SIMPLEX,2,(0,0,255),5)
     
     cv2.imshow("Finger counter",img)
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

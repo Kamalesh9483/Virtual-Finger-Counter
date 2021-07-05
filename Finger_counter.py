@@ -3,7 +3,15 @@ import os       # For operating system dependent functionality
                 # eg. listing Return a list containing the names of the entries in the directory given by path
 import time     # For time related functionality
 import HandTrackingModule as htm
+import serial # serial communication
+import numpy as np
 
+ser = serial.Serial(port="COM11",baudrate=115200,
+        bytesize=serial.EIGHTBITS,
+        parity=serial.PARITY_NONE,stopbits=serial.STOPBITS_ONE)
+
+# ser.open()
+    
 # setting video capture mode
 cap = cv2.VideoCapture(0)
 cap.set(3,1000) 
@@ -90,6 +98,11 @@ while True:
             img[0:height, 0:width] = overLay[fingersCount-1]
 
         print(fingersCount)
+        if ser.is_open:
+            #time.sleep(0.25)
+            ser.write(bytes([fingersCount]))
+
+
         # Displaying text count on screen
         cv2.rectangle(img, (0,250),(130,400),(0,255,0),cv2.FILLED)
         cv2.putText(img, str(fingersCount), (45,350), cv2.FONT_HERSHEY_SIMPLEX, 3,(255,0,0),5)
